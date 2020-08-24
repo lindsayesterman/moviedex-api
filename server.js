@@ -39,16 +39,17 @@ function handleGetMovies(req, res) {
     if (req.query.avg_vote){
         response = response.filter(response => 
                 response.avg_vote >= req.query.avg_vote
-                )
-            }
+            )
+        }
                 
         res.json(response)
     }
             
-     app.get('/movie', handleGetMovies)
+app.get('/movie', handleGetMovies)
             
-     const PORT = 8000
+const PORT = 8000
             
-    app.listen(PORT, () => {
-        console.log(`Server listening at http://localhost:${PORT}`)
-    })
+
+app.listen(PORT, () => {
+    console.log(`Server listening at http://localhost:${PORT}`)
+})
