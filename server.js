@@ -1,15 +1,14 @@
+const cors = require('cors')
+require('dotenv').config()
 const express = require('express')
 const morgan = require('morgan')
-require('dotenv').config()
-const cors = require('cors')
+const helmet = require('helmet')
 const MOVIEDEX = require('./moviedex.json')
-
-
-console.log(process.env.API_TOKEN)
 
 const app = express()
 
 app.use(morgan('dev'))
+app.use(helmet())
 app.use(cors())
 
 app.use(function validateBearerToken(req, res, next) {
@@ -31,25 +30,25 @@ function handleGetMovies(req, res) {
             )
         }
         
-        if (req.query.country){
-            response = response.filter(response => 
-                response.country.toLowerCase().includes(req.query.country.toLowerCase())
+    if (req.query.country){
+        response = response.filter(response => 
+            response.country.toLowerCase().includes(req.query.country.toLowerCase())
+            )
+        }
+            
+    if (req.query.avg_vote){
+        response = response.filter(response => 
+                response.avg_vote >= req.query.avg_vote
                 )
             }
-            
-            if (req.query.avg_vote){
-                response = response.filter(response => 
-                    response.avg_vote >= req.query.avg_vote
-                    )
-                }
                 
-                res.json(response)
-            }
+        res.json(response)
+    }
             
-            app.get('/movie', handleGetMovies)
+     app.get('/movie', handleGetMovies)
             
-            const PORT = 8000
+     const PORT = 8000
             
-            app.listen(PORT, () => {
-                console.log(`Server listening at http://localhost:${PORT}`)
-            })
+    app.listen(PORT, () => {
+        console.log(`Server listening at http://localhost:${PORT}`)
+    })
